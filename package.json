@@ -3,10 +3,26 @@
   "description": "Combine matching media queriries into one media query definition. Useful for CSS gnerated by LESS using nested media queries. Only useful if CSS is written mobile-first.",
   "version": "0.1.0",
   "homepage": "https://github.com/buildingblocks/grunt-combine-media-queries",
-  "author": {
-    "name": "John Cashmore",
-    "email": "j.cashmore@building-blocks.com"
-  },
+  "authors": [
+    {
+      "name": "John Cashmore",
+      "email": "j.cashmore@building-blocks.com"
+    },
+    {
+      "name": "Paul Welsh",
+      "email": "p.welsh@building-blocks.com"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "John Cashmore",
+      "email": "j.cashmore@building-blocks.com"
+    },
+    {
+      "name": "Paul Welsh",
+      "email": "p.welsh@building-blocks.com"
+    }
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/buildingblocks/grunt-combine-media-queries.git"
@@ -37,6 +53,9 @@
     "grunt": "~0.4.1"
   },
   "keywords": [
-    "gruntplugin"
+    "gruntplugin",
+    "media queries",
+    "combine",
+    "optimisation"
   ]
 }
