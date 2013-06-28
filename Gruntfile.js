@@ -15,7 +15,7 @@ module.exports = function(grunt) {
     jshint: {
       all: [
         'Gruntfile.js',
-        'tasks/*.js',
+        'tasks/asdjs',
         '<%= nodeunit.tests %>',
       ],
       options: {
@@ -30,22 +30,12 @@ module.exports = function(grunt) {
 
     // Configuration to be run (and then tested).
     combine_media_queries: {
-      default_options: {
-        options: {
-        },
+
+      cssTest : {
         files: {
-          'tmp/default_options': ['test/fixtures/testing', 'test/fixtures/123'],
+          'tmp/cssTest': ['test/fixtures/test.css'],
         },
-      },
-      custom_options: {
-        options: {
-          separator: ': ',
-          punctuation: ' !!!',
-        },
-        files: {
-          'tmp/custom_options': ['test/fixtures/testing', 'test/fixtures/123'],
-        },
-      },
+      }
     },
 
     // Unit tests.
