@@ -27,15 +27,16 @@ exports.combine_media_queries = {
     // setup here if necessary
     done();
   },
-  /* default_options: function(test) {
+   cssTest: function(test) {
     test.expect(1);
 
-    var actual = grunt.file.read('tmp/default_options');
-    var expected = grunt.file.read('test/expected/default_options');
-    test.equal(actual, expected, 'should describe what the default behavior is.');
+    var actual = grunt.file.read('tmp/cssTest/test/fixtures/test.css');
+    var expected = grunt.file.read('test/expected/test.css');
+    test.equal(actual, expected, 'should match.');
 
     test.done();
   },
+  /*
   custom_options: function(test) {
     test.expect(1);
 

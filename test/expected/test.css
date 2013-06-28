@@ -1,0 +1,146 @@
+body {
+	font-family:"Georgia Pro",Georgia,Times,serif;
+	font-weight:400;
+	color:#000;
+	min-height:100%;
+	width:100%;
+	*zoom:1;
+	zoom:1;
+	font-size:16px;
+	font-size:1rem;
+	line-height:20px;
+	line-height:1.25rem;
+}
+
+body:before,body:after {
+	display:table;
+	content:"";
+}
+
+body:after {
+	clear:both;
+}
+
+body:before,body:after {
+	content:"";
+	display:table;
+}
+
+body:after {
+	clear:both;
+}
+
+.ie7 body {
+	position:relative;
+	top:48px;
+}
+
+.container {
+	position:relative;
+	margin:0 20px;
+	margin:0 1.25rem;
+	max-width:1140px;
+	max-width:71.25rem;
+	*zoom:1;
+	zoom:1;
+}
+
+.container:before,.container:after {
+	display:table;
+	content:"";
+}
+
+.container:after {
+	clear:both;
+}
+
+.container:before,.container:after {
+	content:"";
+	display:table;
+}
+
+.container:after {
+	clear:both;
+}
+
+a {
+	color:#00f;
+	text-decoration:underline;
+}
+
+a:hover,a:focus {
+	text-decoration:none;
+}
+
+img {
+	-ms-interpolation-mode:bicubic;
+}
+
+#monitor-width {
+	display:block;
+	height:1px;
+	overflow:hidden;
+	position:absolute;
+	top:-9999em;
+	left:-9999em;
+	width:20em;
+}
+
+.no-transition,.no-transition * {
+	-webkit-transition:none!important;
+	-moz-transition:none!important;
+	-ms-transition:none!important;
+	-o-transition:none!important;
+	transition:none!important;
+}
+
+#page {
+	max-width:1140px;
+	margin:0 20px;
+}
+
+@media (min-width: 30em) {
+#monitor-width {
+	width:480px;
+}
+
+}
+@media (min-width: 37.5em) {
+#monitor-width {
+	width:600px;
+}
+
+}
+@media (min-width: 48em) {
+.container {
+	margin:0 25px;
+	margin:0 1.5625rem;
+}
+
+#monitor-width {
+	width:768px;
+}
+
+}
+@media (min-width: 60.625em) {
+#monitor-width {
+	width:970px;
+}
+
+}
+@media (min-width: 71.25em) {
+.container {
+	margin-right:auto;
+	margin-left:auto;
+	width:100%;
+}
+
+#monitor-width {
+	width:1140px;
+}
+
+#page {
+	margin:0 auto;
+}
+
+}

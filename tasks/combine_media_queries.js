@@ -73,7 +73,7 @@ module.exports = function(grunt) {
 
 									mediaObj.rules = [];
 
-									processedCSS.media.push(mediaObj)
+									processedCSS.media.push(mediaObj);
 
 								}
 								var i = 0, matched = false;
@@ -81,7 +81,7 @@ module.exports = function(grunt) {
 									if (elm.val === strMedia) {
 										matched = true;
 									}
-									if (!matched) {i++;};
+									if (!matched) {i++;}
 
 								});
 
