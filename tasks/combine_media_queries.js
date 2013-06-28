@@ -15,6 +15,7 @@ module.exports = function(grunt) {
 
 	function processCssRule (rule) {
 		var strCss = "";
+
 		strCss += rule.selectors.join(',') + ' {\r\n';
 		rule.declarations.forEach(function (declaration) {
 			strCss += '\t' + declaration.property + ':' + declaration.value + ';\r\n';
@@ -38,7 +39,7 @@ module.exports = function(grunt) {
     this.files.forEach(function(f) {
 
 			f.src.forEach(function (filename) {
-				console.log(filename);
+
 				if (grunt.file.exists(filename)) {
 					if (!grunt.file.isDir(filename)) {
 						var source = read(filename, 'utf8');
@@ -48,9 +49,12 @@ module.exports = function(grunt) {
 						processedCSS.base = {};
 						processedCSS.base.rules = [];
 						processedCSS.media = [];
+						processedCSS.keyframes = [];
+						grunt.file.write(f.dest + '/' + filename, cssJson);
 
 						cssJson.stylesheet.rules.forEach( function (rule) {
 							if (rule.type === 'media') {
+
 
 								var strMedia = rule.media.replace(/[^A-Za-z0-9]/ig,'');
 
@@ -59,7 +63,7 @@ module.exports = function(grunt) {
 								});
 
 
-								//console.log(strMedia);
+
 								if (item.length < 1) {
 									var mediaObj = {};
 									mediaObj.minw = rule.media.match( /\(\s*min\-width\s*:\s*(\s*[0-9\.]+)(px|em)\s*\)/ ) && parseFloat( RegExp.$1 ) + ( RegExp.$2 || "" );
@@ -81,7 +85,7 @@ module.exports = function(grunt) {
 
 								});
 
-								console.log(i);
+
 
 
 
@@ -90,7 +94,11 @@ module.exports = function(grunt) {
 
 								});
 
-							} else {
+							} else if (rule.type === 'keyframes') {
+
+								processedCSS.keyframes.push(rule);
+							} else if (rule.type === 'rule') {
+
 								processedCSS.base.rules.push(rule);
 							}
 
@@ -111,28 +119,51 @@ module.exports = function(grunt) {
 
 						var strStyles = "";
 						processedCSS.base.rules.forEach(function (rule) {
+
 							strStyles += processCssRule(rule);
 						});
-						//console.log(processedCSS.media);
-						//console.log(processedCSS.media.length);
+
+
 						//var media;
+
+
+
+
+
+
 						processedCSS.media.forEach(function (item) {
 
 								strStyles += '@media ' + item.rule + ' {\r\n';
 
-								//console.log(item.rules);
+
 								//var rule;
 								item.rules.forEach(function (rule) {
-									//console.log(rule);
+
 									strStyles += processCssRule(rule);
 
-									//console.log(strStyles);
+
 								});
 
 								strStyles += '}\r\n';
 
 						});
-						//console.log(JSON.stringify(processedCSS));
+
+						processedCSS.keyframes.forEach(function (keyFrame) {
+							strStyles += '@'+ (typeof keyFrame.vendor !=='undefined'? keyFrame.vendor: '') +'keyframes '+ keyFrame.name +' {\r\n';
+
+							keyFrame.keyframes.forEach(function (frame) {
+								strStyles += '\t' +frame.values.join(',') + ' {\r\n';
+
+									frame.declarations.forEach(function (declaration) {
+										strStyles += '\t\t' + declaration.property + ':' + declaration.value + ';\r\n';
+									});
+
+								strStyles += '}\r\n';
+							});
+
+							strStyles += '\t}\r\n';
+
+						});
 						grunt.file.write(f.dest + '/' + filename, strStyles);
 
 					} else {

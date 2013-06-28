@@ -144,7 +144,7 @@ img {
 	margin:0 20px;
 }
 
-@media (min-width:71.25em) {
+@media (min-width: 71.25em) {
 	#page {
 		margin:0 auto;
 	}
