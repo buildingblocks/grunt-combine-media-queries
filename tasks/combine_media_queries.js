@@ -25,7 +25,7 @@ module.exports = function(grunt) {
 		return strCss;
 	}
 
-  grunt.registerMultiTask('combine_media_queries', 'Your task description goes here.', function() {
+  grunt.registerMultiTask('combine_media_queries', 'Find duplicate media queries and combines them.', function() {
     // Merge task-specific and/or target-specific options with these defaults.
     var options = this.options({
       punctuation: '.',
