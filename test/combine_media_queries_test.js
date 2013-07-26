@@ -22,7 +22,7 @@ var grunt = require('grunt');
     test.ifError(value)
 */
 
-exports.combine_media_queries = {
+exports.combinemediaqueries = {
   setUp: function(done) {
     // setup here if necessary
     done();
@@ -30,7 +30,7 @@ exports.combine_media_queries = {
    cssTest: function(test) {
     test.expect(1);
 
-    var actual = grunt.file.read('tmp/cssTest/test/fixtures/test.css');
+    var actual = grunt.file.read('tmp/cssTest/test.css');
     var expected = grunt.file.read('test/expected/test.css');
     test.equal(actual, expected, 'should match.');
 

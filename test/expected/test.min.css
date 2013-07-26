@@ -99,19 +99,19 @@
 		margin:0 20px;
 	}
 
-@media (min-width: 30em) {
+@media (min-width:30em) {
 	#monitor-width {
 		width:480px;
 	}
 
 }
-@media (min-width: 37.5em) {
+@media (min-width:37.5em) {
 	#monitor-width {
 		width:600px;
 	}
 
 }
-@media (min-width: 48em) {
+@media (min-width:48em) {
 	.container {
 		margin:0 25px;
 		margin:0 1.5625rem;
@@ -122,13 +122,13 @@
 	}
 
 }
-@media (min-width: 60.625em) {
+@media (min-width:60.625em) {
 	#monitor-width {
 		width:970px;
 	}
 
 }
-@media (min-width: 71.25em) {
+@media (min-width:71.25em) {
 	.container {
 		margin-right:auto;
 		margin-left:auto;

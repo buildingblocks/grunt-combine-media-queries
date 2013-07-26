@@ -16,28 +16,32 @@ module.exports = function(grunt) {
 	function processCssRule (rule) {
 		var strCss = "";
 
-		strCss += rule.selectors.join(',') + ' {\r\n';
+		strCss += '\t' + rule.selectors.join(',') + ' {\r\n';
 		rule.declarations.forEach(function (declaration) {
-			strCss += '\t' + declaration.property + ':' + declaration.value + ';\r\n';
+			strCss += '\t\t' + declaration.property + ':' + declaration.value + ';\r\n';
 		});
-		strCss += '}\r\n\r\n';
+		strCss += '\t' + '}\r\n\r\n';
 
 		return strCss;
 	}
 
-  grunt.registerMultiTask('combine_media_queries', 'Find duplicate media queries and combines them.', function() {
+  grunt.registerMultiTask('cmq', 'Find duplicate media queries and combines them.', function() {
     // Merge task-specific and/or target-specific options with these defaults.
     var options = this.options({
-    	//options to go here
+        //options to go here
     });
-		var error = false,
-				parseCss = require('css-parse'),
-				fs = require('fs'),
-				read = fs.readFileSync;
-    // Iterate over all specified file groups.
-    this.files.forEach(function(f) {
+
+	var error = false,
+		parseCss = require('css-parse'),
+		fs = require('fs'),
+		read = fs.readFileSync;
+
+	// Iterate over all specified file groups.
+	this.files.forEach(function(f) {
 
 			f.src.forEach(function (filename) {
+
+
 
 				if (grunt.file.exists(filename)) {
 					if (!grunt.file.isDir(filename)) {
@@ -65,8 +69,7 @@ module.exports = function(grunt) {
 
 								if (item.length < 1) {
 									var mediaObj = {};
-									mediaObj.minw = rule.media.match( /\(\s*min\-width\s*:\s*(\s*[0-9\.]+)(px|em)\s*\)/ ) && parseFloat( RegExp.$1 ) + ( RegExp.$2 || "" );
-									mediaObj.maxw = rule.media.match( /\(\s*max\-width\s*:\s*(\s*[0-9\.]+)(px|em)\s*\)/ ) && parseFloat( RegExp.$1 ) + ( RegExp.$2 || "" );
+									mediaObj.sortval = parseFloat(rule.media.match( /\d+/g ));
 									mediaObj.rule = rule.media;
 									mediaObj.val = strMedia;
 
@@ -105,10 +108,11 @@ module.exports = function(grunt) {
 
 
 						processedCSS.media.sort(function (a,b) {
-							if(a.minw < b.minw) {
+							
+							if(a.sortval < b.sortval) {
 								return -1;
 							}
-							if(a.minw > b.minw) {
+							if(a.sortval > b.sortval) {
 								return 1;
 							}
 							return 0;
@@ -163,7 +167,7 @@ module.exports = function(grunt) {
 							strStyles += '\t}\r\n';
 
 						});
-						grunt.file.write(f.dest + '/' + filename, strStyles);
+						grunt.file.write(f.dest + '/' + filename.substring(filename.lastIndexOf('/')+1), strStyles);
 
 					} else {
 						grunt.log.error('Source file "' + filename + '" not found.');
