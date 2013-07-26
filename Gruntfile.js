@@ -33,7 +33,7 @@ module.exports = function(grunt) {
 
       cssTest : {
         files: {
-          'tmp/cssTest': ['test/fixtures/test.css'],
+          'tmp/cssTest': ['test/fixtures/*.css'],
         },
       }
     },
