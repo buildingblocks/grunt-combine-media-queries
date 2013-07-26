@@ -19,14 +19,14 @@ Once the plugin has been installed, it may be enabled inside your Gruntfile with
 grunt.loadNpmTasks('grunt-combine-media-queries');
 ```
 
-## The "combine_media_queries" task
+## The "cmq" task
 
 ### Overview
-In your project's Gruntfile, add a section named `combine_media_queries` to the data object passed into `grunt.initConfig()`.
+In your project's Gruntfile, add a section named `cmq` to the data object passed into `grunt.initConfig()`.
 
 ```js
 grunt.initConfig({
-  combine_media_queries: {
+  cmq: {
     your_target: {
       // Target-specific file lists and/or options go here.
     },
@@ -45,7 +45,7 @@ In this example, the all the css files in `test/css/` are processed move moved t
 
 ```js
 grunt.initConfig({
-  combine_media_queries: {
+  cmq: {
       default : {
         files: {
           'processed': ['test/css/*.css'],
@@ -59,5 +59,5 @@ grunt.initConfig({
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
-Breaking change task name changed to `combinemediaqueries`
+Breaking change task name changed to `cmq`
 Initial release. Currently only works for CSS written mobile-first and will only order by 'min-width'.
