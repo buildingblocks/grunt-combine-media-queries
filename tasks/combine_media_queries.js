@@ -60,8 +60,10 @@ module.exports = function(grunt) {
         processedCSS.base = {};
         processedCSS.base.rules = [];
         processedCSS.media = [];
-        processedCSS.media.min = [];
-        processedCSS.media.max = [];
+        processedCSS.media.minWidth = [];
+        processedCSS.media.maxWidth = [];
+        processedCSS.media.minHeight = [];
+        processedCSS.media.maxHeight = [];
         processedCSS.media.print = [];
         processedCSS.media.blank = [];
         processedCSS.keyframes = [];
@@ -119,22 +121,36 @@ module.exports = function(grunt) {
         processedCSS.media.forEach(function (item) {
           if (item.rule.match( /print/ )){
             processedCSS.media.print.push(item);  
-          } else if (item.rule.match( /min/ )){
-            processedCSS.media.min.push(item);
-          } else if (item.rule.match( /max/ )){
-            processedCSS.media.max.push(item);
+          } else if (item.rule.match( /min-width/ )){
+            processedCSS.media.minWidth.push(item);
+          } else if (item.rule.match( /min-height/ )){
+            processedCSS.media.minHeight.push(item);
+          } else if (item.rule.match( /max-width/ )){
+            processedCSS.media.maxWidth.push(item);
+          } else if (item.rule.match( /max-height/ )){
+            processedCSS.media.maxHeight.push(item);
           } else {
             processedCSS.media.blank.push(item); 
           }   
         });
         
-        // Sort media.min queries ascending
-        processedCSS.media.min.sort(function(a,b){
+        // Sort media.minWidth queries ascending
+        processedCSS.media.minWidth.sort(function(a,b){
           return a.sortVal-b.sortVal;
         });
         
-        // Sort media.max queries descending
-        processedCSS.media.max.sort(function(a,b){
+        // Sort media.minHeight queries ascending
+        processedCSS.media.minHeight.sort(function(a,b){
+          return a.sortVal-b.sortVal;
+        });
+        
+        // Sort media.maxWidth queries descending
+        processedCSS.media.maxWidth.sort(function(a,b){
+          return b.sortVal-a.sortVal;
+        });
+        
+        // Sort media.maxHeight queries descending
+        processedCSS.media.maxHeight.sort(function(a,b){
           return b.sortVal-a.sortVal;
         });
         
@@ -195,8 +211,10 @@ module.exports = function(grunt) {
           log('\nProcessed media queries:');
           
           outputMedia(processedCSS.media.blank);
-          outputMedia(processedCSS.media.min);
-          outputMedia(processedCSS.media.max);
+          outputMedia(processedCSS.media.minWidth);
+          outputMedia(processedCSS.media.minHeight);
+          outputMedia(processedCSS.media.maxWidth);
+          outputMedia(processedCSS.media.maxHeight);
           outputMedia(processedCSS.media.print);
         }
         
