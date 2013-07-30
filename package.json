@@ -51,16 +51,17 @@
     "css-parse": "~1.5.0"
   },
   "peerDependencies": {
-    "grunt": "~0.4.1",
-    "css-parse": "~1.5.0"
+    "grunt": "~0.4.1"
   },
   "keywords": [
     "gruntplugin",
     "media queries",
     "combine",
-    "optimisation",
-    "less",
-    "front end",
-    "css"
-  ]
+    "optimisation"
+  ],
+  "dependencies": {
+    "grunt-contrib-lib": "~0.3.0",
+    "grunt-lib-contrib": "~0.6.1",
+    "clean-css": "~1.0.12"
+  }
 }

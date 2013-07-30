@@ -41,17 +41,22 @@ Currently there aren't any options
 ### Usage Examples
 
 #### Default Options
-In this example, the all the css files in `test/css/` are processed move moved to the folder `processed`
+In this example, all the css files in `test` are processed, minified and moved to the folder `tmp` with a file extension of '.min.css'
 
 ```js
 grunt.initConfig({
   cmq: {
-      default : {
-        files: {
-          'processed': ['test/css/*.css'],
-        },
-      }
+    options: {
+      report: 'min',
+      ext: '.min.css',
+      log: false
     },
+    your_target: {
+      files: {
+        'tmp': ['test/*.css']
+      }
+    }
+  }
 })
 ```
 
