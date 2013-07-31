@@ -67,5 +67,6 @@ grunt.initConfig({
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
-Breaking change task name changed to `cmq`
-Initial release. Currently only works for CSS written mobile-first and will only order by 'min-width'.
+30-07-13  v1.0.2  Ordering now done by min-width, min-height, max-width, max-height and print.
+26-07-13  v1.0.1  Breaking change task name changed to `cmq`.
+26-07-13  v1.0.0  Initial release. Currently only works for CSS written mobile-first and will only order by 'min-width'.
