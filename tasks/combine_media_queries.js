@@ -10,13 +10,13 @@
 
 var processCssRule = function(rule) {
   var strCss = '';
-  strCss += rule.selectors.join(',') + ' {';
+  strCss += rule.selectors.join(',\n') + ' {\n';
   rule.declarations.forEach(function (declaration) {
     if(declaration.property != null && declaration.value != null){
-      strCss += declaration.property + ':' + declaration.value + ';';
+      strCss += '\t' + declaration.property + ':' + declaration.value + ';\n';
     }
   });
-  strCss += '}';
+  strCss += '}\n\n';
   return strCss;
 };
 
@@ -25,18 +25,17 @@ module.exports = function(grunt) {
   grunt.registerMultiTask('cmq', 'Find duplicate media queries and combines them.', function() {
     
     // Require stuff
-    var helper = require('grunt-lib-contrib').init(grunt);
     var parseCss = require('css-parse');
     var path = require('path');
     var error = true;
     
     // Default options
     var options = this.options({
-      report: false,
-      ext: false,
-      log: false
+      log: false,
+      ext: false 
     });
     
+    // Function to log info only when 'options.log' is set to true
     var log = function(message){
       if (options.log){
         grunt.log.writeln(message);
@@ -164,11 +163,11 @@ module.exports = function(grunt) {
         // Function to output media queries
         var outputMedia = function(media){
           media.forEach(function(item){
-            strStyles += '@media ' + item.rule + ' {';
+            strStyles += '@media ' + item.rule + ' {\n\n';
             item.rules.forEach(function (rule) {
               strStyles += processCssRule(rule);
             });
-            strStyles += '}';
+            strStyles += '}\n\n';
             
             log('@media ' + item.rule);
           });
@@ -177,28 +176,18 @@ module.exports = function(grunt) {
         // Function to output keyframes
         var outputKeyFrames = function(keyFrames){
           processedCSS.keyframes.forEach(function (keyFrame) {
-            strStyles += '@'+ (typeof keyFrame.vendor !=='undefined'? keyFrame.vendor: '') +'keyframes '+ keyFrame.name +' {';
+            strStyles += '@'+ (typeof keyFrame.vendor !=='undefined'? keyFrame.vendor: '') +'keyframes '+ keyFrame.name +' {\n\n';
             keyFrame.keyframes.forEach(function (frame) {
-              strStyles += frame.values.join(',') + ' {';
+              strStyles += frame.values.join(',') + ' {\n';
               frame.declarations.forEach(function (declaration) {
-                strStyles += declaration.property + ':' + declaration.value + ';';
+                if(declaration.property != null && declaration.value != null){
+                  strStyles += '\t' + declaration.property + ':' + declaration.value + ';\n';
+                }
               });
-              strStyles += '}';
+              strStyles += '}\n\n';
             });
-            strStyles += '}';
-            
-            log('@'+ (typeof keyFrame.vendor !=='undefined'? keyFrame.vendor: '') +'keyframes '+ keyFrame.name);
+            strStyles += '}\n';
           });
-        };
-          
-        // Function to minify CSS
-        var minifyCSS = function(source, options) {
-          try {
-            return require('clean-css').process(source, options);
-          } catch (e) {
-            grunt.log.error(e);
-            grunt.fail.warn('CSS minification failed.');
-          }
         };
           
         // Check if base CSS was processed and print them
@@ -216,12 +205,12 @@ module.exports = function(grunt) {
           outputMedia(processedCSS.media.maxWidth);
           outputMedia(processedCSS.media.maxHeight);
           outputMedia(processedCSS.media.print);
+          
+          log('');
         }
         
         // Check if keyframes were processed and print them               
         if (processedCSS.keyframes.length !== 0){
-          log('\nProcessed keyframes:');
-
           outputKeyFrames(processedCSS.keyframes);
         }
         
@@ -229,18 +218,14 @@ module.exports = function(grunt) {
         if( options.ext ){
           destpath = destpath.replace( /\.(.*)/ , options.ext); 
         }
-                
-        // Minify the result
-        var minified = minifyCSS(strStyles);
+        
+        // Normalize line endings
+        strStyles = grunt.util.normalizelf(strStyles);
         
         // Write the new file
-        grunt.file.write(destpath, minified);
-        log('');
+        grunt.file.write(destpath, strStyles);
         grunt.log.ok('File ' + destpath + ' created.');
-        
-        // Report the size difference
-        helper.minMaxInfo(minified, source, options.report);
-                        
+                                
       });
       
       if(error){

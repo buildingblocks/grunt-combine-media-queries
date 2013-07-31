@@ -22,7 +22,6 @@ module.exports = function(grunt) {
     },
     cmq: {
       options: {
-        report: 'min',
         log: true
       },
       your_target: {
