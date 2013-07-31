@@ -48,7 +48,7 @@ module.exports = function(grunt) {
       
         error = false;
       
-        log('\nFound: ' + filepath);
+        log('\nFile ' + filepath + ' found.');
               
         var filename = filepath.replace(/(.*)\//gi, '');
         var destpath = path.join(f.dest, filename);
