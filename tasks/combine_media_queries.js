@@ -105,7 +105,9 @@ module.exports = function(grunt) {
             
             // push every single of merged query
             rule.rules.forEach(function (mediaRule) {
-              processedCSS.media[i].rules.push(mediaRule);
+              if (mediaRule.type === 'rule') {
+                processedCSS.media[i].rules.push(mediaRule);
+              }
             });
 
           } else if (rule.type === 'keyframes') {
