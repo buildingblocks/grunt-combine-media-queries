@@ -28,7 +28,7 @@ main,
 nav,
 section,
 summary {
-  display: block;
+  display: block; /* hello */
 }
 
 /**
@@ -2817,8 +2817,9 @@ a {
 }
 
 @media only screen and (max-width: 1023px) {
+  /* 1commentsdif sdf */
   .book-circle {
-    display: none;
+    display: none; /* another comment */
   }
 }
 
@@ -3176,8 +3177,9 @@ a {
 }
 
 @media only screen {
+/*   hihihih */
 	html{
-		color:red;
+		color:red; /* hsdfjsdjhf */
 		line-height: 200;
 	}
 }
@@ -3190,7 +3192,8 @@ a {
 }
 
 @-webkit-keyframes NAME-YOUR-ANIMATION {
-  0%   { opacity: 0; }
+/*   hahahah */
+  0%   { opacity: 0; /* helphelp */ }
   100% { opacity: 1; }
 }
 @-moz-keyframes NAME-YOUR-ANIMATION {
