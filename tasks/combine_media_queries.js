@@ -66,10 +66,10 @@ module.exports = function(grunt){
       ]
     });
 
-    this.files.forEach(function(f){
+    this.files.forEach(function(file){
     
       // get file contents
-      var contents = f.src.filter(function(filepath) {
+      var contents = file.src.filter(function(filepath) {
         if (!grunt.file.exists(filepath)) {
           grunt.log.warn('Source file "' + filepath + '" not found.');
           return false;
@@ -80,7 +80,7 @@ module.exports = function(grunt){
         return grunt.file.read(filepath);
       }).join('\n');
 
-      // parse the contents and setup objects used for combining and sorting
+      // parse the contents and setup objects used for extracting, combining and sorting the media queries
       var json = parse(contents),
           media = {
             extracted: [],
@@ -88,29 +88,15 @@ module.exports = function(grunt){
             combined: [],
             combinedCount: 0,
             ordered: [],
-            orderedCount: 0
+            orderedCount: 0 // needed?
           },
           other = [];
 
       // seperate media rules from other rules
       json.stylesheet.rules.forEach(function(rule){
         if(rule.type === 'media'){
-
-
-
-          /*
-           * The following two lines are used to order more specific queries 
-           * after their simple counterpart(s), it is not working properly with 
-           * em's need improvement. Works together with the internal sort 
-           * function on line 164. 
-           */
-          var queryNumbers = rule.media.match(/\d+/g);
-          rule.mediaInt = queryNumbers instanceof Array? queryNumbers.join('.') : queryNumbers;
-
-
-
+          rule.mediaInt = rule.media.match(/[0-9]*\.?[0-9]/g);
           rule.mediaStr = rule.media.replace(/[^A-Za-z0-9]/ig,'');
-
           media.extracted.push(rule);
           media.extractedCount++;
         } else {
@@ -160,6 +146,7 @@ module.exports = function(grunt){
         }
       });
 
+
       // sort ordered by output order
       media.ordered.sort(function(a,b){
         return a.output - b.output;
@@ -168,12 +155,17 @@ module.exports = function(grunt){
       // sort ordered internally
       media.ordered.forEach(function(kind){
         kind.rules.sort(function(a,b){
-          if(!kind.reverse || parseInt(a.mediaInt, 10) === parseInt(b.mediaInt, 10)){
-            return a.mediaInt - b.mediaInt;
-          } else {
-            return b.mediaInt - a.mediaInt;
+          for (var i = 0; i < a.mediaInt.length; i++) {
+            if (parseFloat(a.mediaInt[i]) > parseFloat(b.mediaInt[i]) || b.mediaInt === undefined){
+              return 1;
+            } else if (parseFloat(a.mediaInt[i]) < parseFloat(b.mediaInt[i]) || a.mediaInt === undefined){
+              return -1;
+            }
           }
         });
+        if(kind.reverse){
+          kind.rules.reverse();
+        }
       });
 
       // join all the rules together in specified order
@@ -186,16 +178,18 @@ module.exports = function(grunt){
 
       // log every merged media query
       if(options.log){
+        grunt.log.ok('Combined ' + media.extractedCount + ' media queries into ' + media.combinedCount + ':');
         json.stylesheet.rules.forEach(function(rule){
           if(rule.type === 'media'){
-            grunt.log.writeln(rule.media);
+            grunt.log.writeln('@media ' + rule.media);
           }
         });
+        grunt.log.writeln();
       }
 
       // write the new file
-      grunt.file.write(f.dest, stringify(json) );
-      grunt.log.ok('File "' + f.dest + '" created. Combined ' + media.extractedCount + ' media queries into ' + media.combinedCount + '.');
+      grunt.file.write(file.dest, stringify(json) );
+      grunt.log.writeln('File "' + file.dest + '" created.');
     });
   });
 };
