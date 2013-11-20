@@ -24,7 +24,7 @@ module.exports = function(grunt) {
       },
     },
     clean: {
-      tests: ['tmp']
+      tests: ['result']
     },
     cmq: {
       options: {
@@ -32,7 +32,7 @@ module.exports = function(grunt) {
       },
       your_target: {
         files: {
-          'tmp/test.css': ['test/test3.css']
+          'result/test.css': ['test/test3.css']
         }
       }
     }
