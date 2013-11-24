@@ -32,7 +32,7 @@ module.exports = function(grunt) {
       },
       your_target: {
         files: { 
-          'result/test.css': ['test/test3.css'] 
+          'result/test.css': ['test/*.css', 'tex/sd.cdd'] 
         }
       }
     }

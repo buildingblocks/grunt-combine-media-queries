@@ -66,10 +66,9 @@ module.exports = function(grunt){
       ]
     });
 
-    this.files.forEach(function(file){
-    
-      // get file contents
-      var contents = file.src.filter(function(filepath) {
+    this.files.forEach(function(f){
+
+      var source = f.src.filter(function(filepath) {
         if (!grunt.file.exists(filepath)) {
           grunt.log.warn('Source file "' + filepath + '" not found.');
           return false;
@@ -78,24 +77,29 @@ module.exports = function(grunt){
         }
       }).map(function(filepath) {
         return grunt.file.read(filepath);
-      }).join('\n');
+      }).join();
 
-      // parse the contents and setup objects used for extracting, combining and sorting the media queries
-      var json = parse(contents),
+      if(source.length === 0){
+        grunt.log.warn('Source file(s) not found.');
+        return false;
+      }
+
+      // parse the source and setup objects used for extracting, combining and sorting the media queries
+      var json = parse(source),
           media = {
             extracted: [],
             extractedCount: 0,
             combined: [],
             combinedCount: 0,
             ordered: [],
-            orderedCount: 0 // needed?
+            orderedCount: 0
           },
           other = [];
 
       // seperate media rules from other rules
       json.stylesheet.rules.forEach(function(rule){
         if(rule.type === 'media'){
-          rule.mediaInt = rule.media.match(/[0-9]*\.?[0-9]/g);
+          rule.mediaInt = rule.media.match(/[0-9]*\.?[0-9]/g) || 0;
           rule.mediaStr = rule.media.replace(/[^A-Za-z0-9]/ig,'');
           media.extracted.push(rule);
           media.extractedCount++;
@@ -117,12 +121,6 @@ module.exports = function(grunt){
           media.combinedCount++;
         }
       });
-
-      // HEY YOU, stop right there!
-      if(media.extractedCount === media.combinedCount){
-        grunt.log.error('No duplicate media queries found.');
-        return false;
-      }
 
       // custom ordering and sorting
       options.order.forEach(function(o){
@@ -146,7 +144,6 @@ module.exports = function(grunt){
         }
       });
 
-
       // sort ordered by output order
       media.ordered.sort(function(a,b){
         return a.output - b.output;
@@ -156,9 +153,9 @@ module.exports = function(grunt){
       media.ordered.forEach(function(kind){
         kind.rules.sort(function(a,b){
           for (var i = 0; i < a.mediaInt.length; i++) {
-            if (parseFloat(a.mediaInt[i]) > parseFloat(b.mediaInt[i]) || b.mediaInt === undefined){
+            if (parseFloat(a.mediaInt[i]) > parseFloat(b.mediaInt[i]) /* || b.mediaInt === undefined */){
               return 1;
-            } else if (parseFloat(a.mediaInt[i]) < parseFloat(b.mediaInt[i]) || a.mediaInt === undefined){
+            } else if (parseFloat(a.mediaInt[i]) < parseFloat(b.mediaInt[i]) /* || a.mediaInt === undefined */){
               return -1;
             }
           }
@@ -176,9 +173,12 @@ module.exports = function(grunt){
       // merge them back into the json
       json.stylesheet.rules = other;
 
+
       // log every merged media query
       if(options.log){
-        grunt.log.ok('Combined ' + media.extractedCount + ' media queries into ' + media.combinedCount + ':');
+        grunt.log.subhead('Files found:');
+        console.log(f.src);
+        grunt.log.subhead('Combined ' + media.extractedCount + ' media queries into ' + media.combinedCount + ':');
         json.stylesheet.rules.forEach(function(rule){
           if(rule.type === 'media'){
             grunt.log.writeln('@media ' + rule.media);
@@ -188,8 +188,8 @@ module.exports = function(grunt){
       }
 
       // write the new file
-      grunt.file.write(file.dest, stringify(json) );
-      grunt.log.writeln('File "' + file.dest + '" created.');
+      grunt.file.write(f.dest, stringify(json) );
+      grunt.log.ok('File "' + f.dest + '" created.');
     });
   });
 };
