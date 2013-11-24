@@ -24,15 +24,15 @@ module.exports = function(grunt) {
       },
     },
     clean: {
-      tests: ['result']
+      result: ['result']
     },
     cmq: {
       options: {
         log: true
       },
       your_target: {
-        files: {
-          'result/test.css': ['test/test3.css']
+        files: { 
+          'result/test.css': ['test/test3.css'] 
         }
       }
     }
@@ -41,6 +41,7 @@ module.exports = function(grunt) {
 
   grunt.loadTasks('tasks');
 
+  grunt.loadNpmTasks('grunt-notify');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-clean');
