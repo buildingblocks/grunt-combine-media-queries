@@ -123,8 +123,13 @@ module.exports = function(grunt) {
       
         log('\nFile ' + filepath + ' found.');
               
+        var destpath = f.dest;
         var filename = filepath.replace(/(.*)\//gi, '');
-        var destpath = path.join(f.dest, filename);
+
+        if (destpath.indexOf(filename) === -1) {
+          destpath = path.join(f.dest, filename);
+        }
+
         var source = grunt.file.read(filepath);
         var cssJson = parseCss(source);
         var strStyles = [];

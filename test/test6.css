@@ -1,0 +1,79 @@
+.foo {
+  color: #001;
+}
+
+@media (min-width: 640px) {
+  .foo {
+    color: #100;
+  }
+}
+
+.bar {
+  color: #002;
+}
+
+@media (min-width: 960px) {
+  .bar {
+    color: #200;
+  }
+}
+
+.baz {
+  color: #003;
+}
+
+@media (min-width: 640px) {
+  .baz {
+    color: #300;
+  }
+}
+
+.qux {
+  color: #004;
+}
+
+@media (min-width: 640px) {
+  .qux {
+    color: #400;
+  }
+}
+
+.quux {
+  color: #005;
+}
+
+@media (min-width: 960px) {
+  .quux {
+    color: #500;
+  }
+}
+
+.corge {
+  color: #006;
+}
+
+@media (min-width: 960px) {
+  .corge {
+    color: #600;
+  }
+}
+
+.grault {
+  color: #007;
+}
+
+@media (min-width: 640px) {
+  .grault {
+    color: #700;
+  }
+}
+
+.garply {
+  color: #008;
+}
+
+@media (min-width: 960px) {
+  .garply {
+    color: #800;
+  }
+}
