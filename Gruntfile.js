@@ -28,6 +28,12 @@ module.exports = function(grunt) {
         files: {
           'tmp': ['test/test3.css']
         }
+      },
+      dynamic: {
+        expand: true,
+        cwd: 'test/',
+        src: ['test6.css'],
+        dest: 'tmp/'
       }
     }
 
