@@ -21,44 +21,44 @@ module.exports = function(grunt){
       log: false,
       order: [
         {
-          name: 'simple',
+          kind: 'simple',
           regex: /screen/,
           order: 5,
           output: 0,
         },
         { 
-          name: 'min-width',
+          kind: 'min-width',
           regex: /min-width/,
           order: 1,
           output: 1, 
         },
         {
-          name: 'max-width',
+          kind: 'max-width',
           regex: /max-width/,
           reverse: true,
           order: 2,
           output: 2,
         },
         { 
-          name: 'min-height',
+          kind: 'min-height',
           regex: /min-height/,
           order: 3,
           output: 3, 
         },
         {
-          name: 'max-height',
+          kind: 'max-height',
           regex: /max-height/,
           reverse: true,
           order: 4,
           output: 4,
         },
         {
-          name: 'other',
+          kind: 'other',
           order: 99,
           output: 5,
         },
         { 
-          name: 'print',
+          kind: 'print',
           regex: /print/,
           order: 0,
           output: 99, 
@@ -78,11 +78,6 @@ module.exports = function(grunt){
       }).map(function(filepath) {
         return grunt.file.read(filepath);
       }).join();
-
-      if(source.length === 0){
-        grunt.log.warn('Source file(s) not found.');
-        return false;
-      }
 
       // parse the source and setup objects used for extracting, combining and sorting the media queries
       var json = parse(source),
@@ -176,20 +171,20 @@ module.exports = function(grunt){
 
       // log every merged media query
       if(options.log){
-        grunt.log.subhead('Files found:');
-        console.log(f.src);
-        grunt.log.subhead('Combined ' + media.extractedCount + ' media queries into ' + media.combinedCount + ':');
+
+        grunt.log.subhead(f.src.toString());
         json.stylesheet.rules.forEach(function(rule){
           if(rule.type === 'media'){
             grunt.log.writeln('@media ' + rule.media);
           }
         });
         grunt.log.writeln();
+        grunt.log.ok('Combined ' + media.extractedCount + ' media queries into ' + media.combinedCount);
       }
 
       // write the new file
       grunt.file.write(f.dest, stringify(json) );
-      grunt.log.ok('File "' + f.dest + '" created.');
+      grunt.log.writeln('File "' + f.dest + '" created.');
     });
   });
 };

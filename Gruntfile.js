@@ -30,10 +30,16 @@ module.exports = function(grunt) {
       options: {
         log: true
       },
-      your_target: {
-        files: { 
-          'result/test.css': ['test/*.css', 'tex/sd.cdd'] 
-        }
+      dynamic_target: {
+        expand: true,
+        flatten: true,
+        cwd: 'test/',
+        src: ['*.css', '!*.min.css'],
+        dest: 'result/',
+        ext: '.combined.css'
+      },
+      static_target: {
+        files: { 'result/static.css': ['test/tessdft3.css', 'test/test.css'] }
       }
     }
 
@@ -46,6 +52,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-clean');
 
-  grunt.registerTask('default', ['clean', 'jshint', 'cmq', 'watch']);
+  grunt.registerTask('default', ['clean', 'jshint', 'cmq']);
 
 };
