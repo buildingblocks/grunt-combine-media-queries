@@ -12,7 +12,11 @@ module.exports = function(grunt){
 
   grunt.registerMultiTask('cmq', 'Find duplicate media queries and combines them.', function(){
     
-    // requirements
+    /**
+     * This plugin uses 'css-parse' (url here) to turn CSS into JSON format.
+     * After all the combining is done the JSON is then stringified 
+     * using 'css-stringify' (url here).
+     */
     var parse = require('css-parse'),
         stringify = require('css-stringify');
 
