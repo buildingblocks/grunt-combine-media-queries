@@ -136,6 +136,7 @@ module.exports = function(grunt) {
         var processedCSS = {};
         processedCSS.base = [];
         processedCSS.media = [];
+        processedCSS.media.all = [];
         processedCSS.media.minWidth = [];
         processedCSS.media.maxWidth = [];
         processedCSS.media.minHeight = [];
@@ -199,6 +200,8 @@ module.exports = function(grunt) {
         processedCSS.media.forEach(function (item) {
           if (item.rule.match( /print/ )){
             processedCSS.media.print.push(item);  
+          } else if (item.rule.match( /all/ )){
+            processedCSS.media.all.push(item);
           } else if (item.rule.match( /min-width/ )){
             processedCSS.media.minWidth.push(item);
           } else if (item.rule.match( /min-height/ )){
@@ -212,6 +215,11 @@ module.exports = function(grunt) {
           }   
         });
         
+        // Sort media.all queries ascending
+        processedCSS.media.all.sort(function(a,b){
+          return a.sortVal-b.sortVal;
+        });
+
         // Sort media.minWidth queries ascending
         processedCSS.media.minWidth.sort(function(a,b){
           return a.sortVal-b.sortVal;
@@ -262,6 +270,7 @@ module.exports = function(grunt) {
         if (processedCSS.media.length !== 0){
           log('\nProcessed media queries:');
           outputMedia(processedCSS.media.blank);
+          outputMedia(processedCSS.media.all);
           outputMedia(processedCSS.media.minWidth);
           outputMedia(processedCSS.media.minHeight);
           outputMedia(processedCSS.media.maxWidth);
