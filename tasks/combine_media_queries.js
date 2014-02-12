@@ -215,29 +215,54 @@ module.exports = function(grunt) {
           }   
         });
         
+        // Function to determine sort order
+        var determineSortOrder = function(a, b, isMax) {
+          var sortValA = a.sortVal,
+              sortValB = b.sortVal;
+              isMax = typeof isMax !== 'undefined' ? isMax : false;
+
+          // consider print for sorting if sortVals are equal
+          if (sortValA === sortValB) {
+            if (a.rule.match( /print/ )) {
+              // a contains print and should be sorted after b
+              return 1;
+            }
+            if (b.rule.match( /print/ )) {
+              // b contains print and should be sorted after a
+              return -1;
+            }
+          }
+
+          // return descending sort order for max-(width|height) media queries
+          if (isMax) { return sortValB-sortValA; }
+
+          // return ascending sort order
+          return sortValA-sortValB;
+        };
+        
         // Sort media.all queries ascending
         processedCSS.media.all.sort(function(a,b){
-          return a.sortVal-b.sortVal;
+          return determineSortOrder(a, b);
         });
 
         // Sort media.minWidth queries ascending
         processedCSS.media.minWidth.sort(function(a,b){
-          return a.sortVal-b.sortVal;
+          return determineSortOrder(a, b);
         });
         
         // Sort media.minHeight queries ascending
         processedCSS.media.minHeight.sort(function(a,b){
-          return a.sortVal-b.sortVal;
+          return determineSortOrder(a, b);
         });
         
         // Sort media.maxWidth queries descending
         processedCSS.media.maxWidth.sort(function(a,b){
-          return b.sortVal-a.sortVal;
+          return determineSortOrder(a, b, true);
         });
         
         // Sort media.maxHeight queries descending
         processedCSS.media.maxHeight.sort(function(a,b){
-          return b.sortVal-a.sortVal;
+          return determineSortOrder(a, b, true);
         });
         
         // Function to output base CSS
