@@ -198,11 +198,7 @@ module.exports = function(grunt) {
           
         // Sort media queries by kind, this is needed to output them in the right order
         processedCSS.media.forEach(function (item) {
-          if (item.rule.match( /print/ )){
-            processedCSS.media.print.push(item);  
-          } else if (item.rule.match( /all/ )){
-            processedCSS.media.all.push(item);
-          } else if (item.rule.match( /min-width/ )){
+          if (item.rule.match( /min-width/ )){
             processedCSS.media.minWidth.push(item);
           } else if (item.rule.match( /min-height/ )){
             processedCSS.media.minHeight.push(item);
@@ -210,6 +206,10 @@ module.exports = function(grunt) {
             processedCSS.media.maxWidth.push(item);
           } else if (item.rule.match( /max-height/ )){
             processedCSS.media.maxHeight.push(item);
+          } else if (item.rule.match( /print/ )){
+            processedCSS.media.print.push(item);  
+          } else if (item.rule.match( /all/ )){
+            processedCSS.media.all.push(item);
           } else {
             processedCSS.media.blank.push(item); 
           }   
