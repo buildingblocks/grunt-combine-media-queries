@@ -70,6 +70,18 @@
 	}
 }
 
+@media print, only screen and (min-width: 46em) and (max-width: 61em) {
+	.test {
+		color: red;
+	}
+}
+
+@media only screen and (min-width: 46em) and (max-width: 61em) {
+	.test {
+		color: red;
+	}
+}
+
 @media only screen {
 	.test {
 		color: red;
