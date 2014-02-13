@@ -32,7 +32,7 @@ module.exports = function(grunt) {
       dynamic: {
         expand: true,
         cwd: 'test/',
-        src: ['test6.css'],
+        src: ['*.css'],
         dest: 'tmp/'
       }
     }
