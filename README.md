@@ -67,6 +67,7 @@ grunt.initConfig({
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
+* 13-02-14 - v1.0.11
 * 13-02-14 - v1.0.10
 * 28-10-13 - v1.0.9 - Support dynamic mapping
 * 28-10-13 - v1.0.8 - Package.json fix
