@@ -43,7 +43,7 @@ module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-clean');
-
+  grunt.loadNpmTasks('grunt-release');
   grunt.registerTask('default', ['clean', 'jshint', 'cmq']);
 
 };
