@@ -139,7 +139,7 @@ module.exports = function(grunt) {
 
         var source = grunt.file.read(filepath);
         var cssJson = parseCss(source);
-        var strStyles = [];
+        var strStyles = '';
         var processedCSS = {};
         processedCSS.importURL = [];
         processedCSS.base = [];
