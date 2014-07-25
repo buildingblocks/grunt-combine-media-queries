@@ -1,3 +1,6 @@
+	@charset "UTF-8"
+
+
 	body {
 		font-family:"Georgia Pro",Georgia,Times,serif;
 		font-weight:400;
@@ -144,3 +147,26 @@
 	}
 
 }
+
+@-moz-document url-prefix(http://www.example.com) {
+
+	p {
+	  height: 5px;
+	}
+
+  @media (min-width: 767px) {
+
+    p {
+      height: 5px;
+    }
+  }
+}
+
+@supports ( not ((text-align-last:justify) or (-moz-text-align-last:justify) ){
+
+	p {
+		color: red;
+	}
+}
+
+
