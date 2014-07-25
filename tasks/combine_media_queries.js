@@ -131,7 +131,7 @@ module.exports = function(grunt) {
     // Process others
     var processDocument = function(doc) {
       var strCss = '';
-      strCss += '@' + (typeof doc.vendor !=='undefined'? doc.vendor: '') + 'keyframes ' + doc.document + ' {\n\n';
+      strCss += '@' + (typeof doc.vendor !=='undefined'? doc.vendor: '') + 'document ' + doc.document + ' {\n\n';
       log('@' + (typeof doc.vendor !=='undefined'? doc.vendor: '') + 'document ' + doc.document);
       doc.rules.forEach(function (rule) {
         strCss += commentOrRule(rule);
