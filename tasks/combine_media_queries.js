@@ -140,11 +140,6 @@ module.exports = function(grunt) {
       return strCss;
     };
 
-    var processCharset = function(charset) {
-      log(charset.charset);
-      return '@charset' + charset.charset + '\n\n';
-    };
-
     this.files.forEach(function(f) {
 
       f.src.forEach(function (filepath) {
