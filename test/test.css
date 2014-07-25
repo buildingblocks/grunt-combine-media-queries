@@ -1,4 +1,4 @@
-	@charset "UTF-8"
+	@charset "UTF-8";
 
 
 	body {
@@ -150,9 +150,9 @@
 
 @-moz-document url-prefix(http://www.example.com) {
 
-	p {
+						p {
 	  height: 5px;
-	}
+}
 
   @media (min-width: 767px) {
 
