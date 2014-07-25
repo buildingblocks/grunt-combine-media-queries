@@ -74,10 +74,15 @@ module.exports = function(grunt) {
     // Check rule type
     var commentOrRule = function(rule) {
       var strCss = '';
+      //log(rule.type);
       if (rule.type === 'rule') {
         strCss += processRule(rule);
       } else if (rule.type === 'comment') {
         strCss += processComment(rule) + '\n\n';
+      } else if (rule.type === 'media') {
+        strCss += processMedia(rule);
+      } else if (rule.type === 'keyframes') {
+        strCss += processKeyframes(rule);
       }
       return strCss;
     };
@@ -99,14 +104,21 @@ module.exports = function(grunt) {
 
     // Process media queries
     var processMedia = function(media) {
-      var strCss = '';
-      strCss += '@media ' + media.rule + ' {\n\n';
-      media.rules.forEach(function (rule) {
-        strCss += commentOrRule(rule);
-      });
-      strCss += '}\n\n';
-      log('@media ' + media.rule);
-
+      var strCss = '',
+          query = media.rule;
+      //log(JSON.stringify(media)+'\n\n');
+      if(!query && media.media) {
+        query = media.media;
+      }
+      if(query) {
+        //log(JSON.stringify(media)+'\n\n');
+        strCss += '@media ' + query + ' {\n\n';
+        media.rules.forEach(function (rule) {
+          strCss += commentOrRule(rule);
+        });
+        strCss += '}\n\n';
+        log('@media ' + query);
+      }
       return strCss;
     };
 
@@ -119,6 +131,18 @@ module.exports = function(grunt) {
       });
       strCss += '}\n\n';
 
+      return strCss;
+    };
+
+    // Process document
+    var processDocument = function(doc) {
+      var strCss = '';
+      strCss += '@' + (typeof doc.vendor !=='undefined'? doc.vendor: '') + 'document ' + doc.document + ' {\n\n';
+      log('@' + (typeof doc.vendor !=='undefined'? doc.vendor: '') + 'document ' + doc.document);
+      doc.rules.forEach(function (rule) {
+        strCss += commentOrRule(rule);
+      });
+      strCss += '}\n\n';
       return strCss;
     };
 
@@ -152,6 +176,7 @@ module.exports = function(grunt) {
         processedCSS.media.print = [];
         processedCSS.media.blank = [];
         processedCSS.keyframes = [];
+        processedCSS.document = [];
 
         grunt.file.write(destpath, cssJson);
 
@@ -200,6 +225,9 @@ module.exports = function(grunt) {
 
           } else if (rule.type === 'import') {
             processedCSS.importURL.push(rule);
+
+          } else if (rule.type === 'document') {
+            processedCSS.document.push(rule);
 
           } else if (rule.type === 'rule' || 'comment') {
             processedCSS.base.push(rule);
@@ -298,6 +326,13 @@ module.exports = function(grunt) {
         };
 
         // Function to output keyframes
+        var outputDocument = function (doc) {
+          doc.forEach(function (doc) {
+            strStyles += processDocument(doc);
+          });
+        };
+
+        // Function to output keyframes
         var outputKeyFrames = function(keyframes){
           keyframes.forEach(function (keyframe) {
             strStyles += processKeyframes(keyframe);
@@ -324,6 +359,13 @@ module.exports = function(grunt) {
           outputMedia(processedCSS.media.maxWidth);
           outputMedia(processedCSS.media.maxHeight);
           outputMedia(processedCSS.media.print);
+          log('');
+        }
+
+        // Check if keyframes were processed and print them
+        if (processedCSS.document.length !== 0){
+          log('\nProcessed documents:');
+          outputDocument(processedCSS.document);
           log('');
         }
 
