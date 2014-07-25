@@ -146,6 +146,11 @@ module.exports = function(grunt) {
       return strCss;
     };
 
+    var processCharset = function (charset) {
+      log('@charset ' + charset.charset);
+      return '@charset ' + charset.charset + ';\n\n';
+    };
+
     this.files.forEach(function(f) {
 
       f.src.forEach(function (filepath) {
@@ -177,6 +182,7 @@ module.exports = function(grunt) {
         processedCSS.media.blank = [];
         processedCSS.keyframes = [];
         processedCSS.document = [];
+        processedCSS.charset = [];
 
         grunt.file.write(destpath, cssJson);
 
@@ -228,6 +234,9 @@ module.exports = function(grunt) {
 
           } else if (rule.type === 'document') {
             processedCSS.document.push(rule);
+
+          } else if (rule.type === 'charset') {
+            processedCSS.charset.push(rule);
 
           } else if (rule.type === 'rule' || 'comment') {
             processedCSS.base.push(rule);
@@ -305,6 +314,13 @@ module.exports = function(grunt) {
         });
 
         // Function to output base CSS
+        var outputCharset = function(charset){
+          charset.forEach(function (charset) {
+            strStyles += processCharset(charset);
+          });
+        };
+
+        // Function to output base CSS
         var outputBase = function(base){
           base.forEach(function (rule) {
             strStyles += commentOrRule(rule);
@@ -338,6 +354,11 @@ module.exports = function(grunt) {
             strStyles += processKeyframes(keyframe);
           });
         };
+
+        // Check if charset was set
+        if (processedCSS.charset.length !== 0){
+          outputCharset(processedCSS.charset);
+        }
 
         // Check if import URL was processed
         if (processedCSS.importURL.length !== 0){
