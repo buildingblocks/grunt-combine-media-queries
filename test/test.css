@@ -147,6 +147,39 @@
 
 }
 
+@media only screen {
+/*   hihihih */
+	html{
+		color:red; /* hsdfjsdjhf */
+		line-height: 200;
+	}
+}
+
+@media print {
+	html{
+		color:red;
+		line-height: 200;
+	}
+}
+
+@-webkit-keyframes NAME-YOUR-ANIMATION {
+/*   hahahah */
+  0%   { opacity: 0; /* helphelp */ }
+  100% { opacity: 1; }
+}
+@-moz-keyframes NAME-YOUR-ANIMATION {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+@-o-keyframes NAME-YOUR-ANIMATION {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+@keyframes NAME-YOUR-ANIMATION {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+
 @-moz-document url-prefix(http://www.example.com) {
 
 						p {

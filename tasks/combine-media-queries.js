@@ -2,7 +2,7 @@
  * grunt-combine-media-queries
  * https://github.com/buildingblocks/grunt-combine-media-queries
  *
- * Copyright (c) 2013 John Cashmore
+ * Copyright (c) 2014 Building Blocks
  * Licensed under the MIT license.
  */
 
