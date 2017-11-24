@@ -83,6 +83,8 @@ module.exports = function(grunt) {
         strCss += processMedia(rule);
       } else if (rule.type === 'keyframes') {
         strCss += processKeyframes(rule);
+      } else if (rule.type === 'supports') {
+        strCss += processSupports(rule);
       }
       return strCss;
     };
@@ -130,6 +132,21 @@ module.exports = function(grunt) {
         strCss += commentOrKeyframe(keyframe);
       });
       strCss += '}\n\n';
+
+      return strCss;
+    };
+
+    // Process supports
+    var processSupports = function (supports) {
+      var strCss = '';
+
+      strCss += '@supports ' + supports.supports + ' {\n\n';
+      supports.rules.forEach(function (rule) {
+        strCss += commentOrRule(rule);
+      });
+      strCss += '}\n\n';
+
+      log('@supports ' + supports.supports);
 
       return strCss;
     };
@@ -238,7 +255,7 @@ module.exports = function(grunt) {
           } else if (rule.type === 'charset') {
             processedCSS.charset.push(rule);
 
-          } else if (rule.type === 'rule' || 'comment') {
+          } else if (rule.type === 'rule' || 'comment' || 'supports') {
             processedCSS.base.push(rule);
 
           }
