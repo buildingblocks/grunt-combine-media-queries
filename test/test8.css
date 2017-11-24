@@ -1,0 +1,65 @@
+@charset "UTF-8";
+
+body {
+  font-family: "Georgia Pro", Georgia, Times, serif;
+  font-weight: 400;
+  color: #000;
+}
+
+body:before, body:after {
+  display: table;
+  content: "";
+}
+
+body:after {
+  clear: both;
+}
+
+@-moz-document url-prefix(http://www.example.com) {
+
+  p {
+    height: 5px;
+  }
+
+  @media (min-width: 500px) {
+
+    p {
+      height: 5px;
+    }
+
+    @supports (display: flex) {
+
+      p {
+        height: 10px;
+      }
+
+    }
+
+  }
+
+}
+
+@supports ( not ((text-align-last:justify) or (-moz-text-align-last:justify) ) {
+
+  p {
+    color: #ABCDEF;
+  }
+
+}
+
+@media (min-width: 900px) {
+
+  p {
+    height: 15px;
+  }
+
+  @supports not (display: flex) {
+
+    p {
+      height: 20px;
+    }
+
+  }
+
+}
+
